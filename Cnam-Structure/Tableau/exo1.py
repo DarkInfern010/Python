@@ -1,8 +1,9 @@
 find = False
-inf = 1
+inf = 0
 tab = [2,5,6,10,15,20,30,40,41]
 e = 10
-sup = len(tab)
+if (len(tab) > 0):
+    sup = len(tab)
 compteur = 0
 
 while (inf <= sup and find == False):
@@ -20,4 +21,4 @@ while (inf <= sup and find == False):
 #endwhile
 
 print(str(e)+" trouvé en : "+str(compteur)+" itérations")
-print("La compléxité est de log2n au lieu de O(n) en recherche linéaire")
+print("La compléxité est de log2(n) au lieu de O(n) en recherche linéaire")

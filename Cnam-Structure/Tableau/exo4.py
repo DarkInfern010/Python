@@ -1,0 +1,1 @@
+print("La complexité est de log2(n)")
