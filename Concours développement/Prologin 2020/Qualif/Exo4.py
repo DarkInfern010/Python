@@ -40,7 +40,7 @@ def capitalisme_interplanetaire(t, n, planetes, d, mission):
     # TODO Affichez un entier : la distance minimale à parcourir pour remplir
     # la mission décrite. Les distances devront être calculées en utilisant la
     # distance de Manhattan, décrite ci-dessus.
-
+    # Calcul = abs(xA - xB) + abs(yA - yB)
 
 
 #endef
