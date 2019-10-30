@@ -1,0 +1,5 @@
+#Diagonale haut Gauche à Bas Droite
+diagA = sum(arr[i][i] for i in range(len(arr)))
+
+#Diagonale haut Droite à Bas Gauche
+diagB = sum(arr[i][len(arr)-i-1] for i in range(len(arr)))
