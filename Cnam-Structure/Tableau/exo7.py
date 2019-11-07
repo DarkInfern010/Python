@@ -57,12 +57,11 @@ def PlusLongueCoupeRec(tab, nbO):
         PlusLongueCoupeRec(tab[indiceFin+1:],nbO)
     if (len(tab[indiceFin+1:]) == 1 or len(tab[:indiceDeb]) == 1):
         nbO.append(1)
-    return nbO
+    return max(nbO)
 #endef
 
-#n = int(input("Entrer la taille du tableau : "))
-#tab = [random.randint(0,1) for i in range(n)]
-tab = [0,1,1,1,0,1,0,1,1,1,1,1,1,1,1,0,0,0,1,1]
+n = int(input("Entrer la taille du tableau : "))
+tab = [random.randint(0,1) for i in range(n)]
 nbO = []
 
 print(tab)
