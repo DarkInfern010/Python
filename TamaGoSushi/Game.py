@@ -10,16 +10,28 @@ class TamaGame:
     nbCycle = 0
 
     def __init__(self):
-        nb = int(input("Saisir le nombre de TamaGoSushi : "))
+
+        nb = self.VerifInt("Saisir le nombre de TamaGoSushi : ")
+
         for i in range (nb):
-            nom = input("Saisir le nom du TamaGoSushi : ")
-            self.invasionTama.append(Tamagoshi(nom))
+            self.invasionTama.append(Tamagoshi(input("Saisir le nom du TamaGoSushi : ")))
         #endfor
+
         self.nbCycle = int(input("Saisir le nombre de cycle : "))
-        self.lifeTama = self.invasionTama
+        self.lifeTama = self.invasionTama[:]
         self.CycleMax = self.nbCycle * nb
         self.play()
     #enddef
+
+    def VerifInt(self, entree):
+        while True:
+            try:
+                return int(input(entree))
+            except ValueError:
+                print("Ce n'est pas un nombre !")
+        #endwhileVerif
+    #enddef
+
     def play(self):
         i = 0
         while i < self.nbCycle:
@@ -35,8 +47,10 @@ class TamaGame:
             for k in range (len(self.lifeTama)):
                 print("("+str(k)+")" + self.lifeTama[k].name, end=" ")
             #endfor
-            faireManger = int(input())
-            print(self.lifeTama[faireManger].name, end=" ")
+
+            faireManger = self.VerifInt("")
+
+            print(self.lifeTama[faireManger].name + " :", end=" ")
             self.lifeTama[faireManger].mange()
 
             for l in self.lifeTama:
@@ -62,7 +76,8 @@ class TamaGame:
         for i in range (len(self.invasionTama)):
             if (self.invasionTama[i] in self.lifeTama):
                 print(self.invasionTama[i].name + " vie encore, Bravo !")
-
+            else:
+                print(self.invasionTama[i].name + " est mort, Connard !")
         print("------------Fin du jeu------------")
     #endef
 
