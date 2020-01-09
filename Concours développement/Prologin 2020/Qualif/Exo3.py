@@ -15,8 +15,10 @@ for i in range (nbMinerai):
             mini.append(d[j])
         else:
             break
+
     if (compte == argent):
         res.append(len(mini))
+
 if (len(res) == 0):
     print("-1")
 else:
