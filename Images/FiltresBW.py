@@ -10,7 +10,7 @@ def filtreBW (img_origin, CIE):
     im = np.copy(img_origin)
     for i in range (im.shape[0]):
         for j in range (im.shape[1]):
-            r, v, b = im [i,j]
+            r, v, b = im[i,j]
             if (CIE == "709"):
                 im[i,j] = (0.2125 * r + 0.7154 * v + 0.0721 * b)
             elif (CIE == "601"):
