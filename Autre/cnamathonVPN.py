@@ -14,9 +14,9 @@ while nombreRequete < 1000: #Boucle faisant le nombre de requete
     else:
         url = "https://www.cnam-grandest.fr/le-cnamathon/431" #URL de l'article
 
-        s = requests.sessions() #Ouverture d'une session
+        s = requests.session() #Ouverture d'une session
         response = s.get(url) #Récupération du code HTML de la page (GET)
-        div = response.text.split('ittoken " value="1" name="') #Localisation du token
+        div = response.text.split('ittoken" value="1" name="') #Localisation du token
         div1 = div[1].split('"') #Split du token
         token = div1[0] #Récupération du token seul
 
