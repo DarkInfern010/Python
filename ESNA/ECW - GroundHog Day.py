@@ -1,9 +1,12 @@
 import socket
+import re
 
 #Variables de solution des missions
 morse_alphabet = dict()
 destroy_alphabet = dict()
 unicode_alphabet = dict()
+polybe_alphabet = dict()
+casse_alphabet = dict()
 
 #Fonction permettant de split les chaines par caractères
 def splitP(string):
@@ -148,21 +151,103 @@ donnee = str(client.recv(1024))
 indiceDeb = donnee.find("is ")
 indiceFin = donnee.find("\\n")
 
-donneeT = donnee[indiceDeb+3:indiceFin]
-str = "\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea"
+donneeT = donnee[indiceDeb+4:indiceFin]
 
-for i in range (len(donneeT)-3):
-    unicode_alphabet[donneeT[i:i+3]] = alphabet[i]
+for i in range (len(alphabet)):
+    unicode_alphabet[donneeT.split('\\')[i]] = alphabet[i]
 #endfor
 print(unicode_alphabet)
 
-for i in range (len(donneeT)):
-    morse_alphabet[donneeT[i]] = alphabet[i]
+client.send(b" ")
+donnee = str(client.recv(1024))
+
+for j in range (20):
+    #Reception de l'eniglme en morse
+    donnee = str(client.recv(1024))
+    print(donnee)
+
+    indiceDeb = donnee.find("is ")
+    indiceFin = donnee.find(" decyphered")
+
+    enigme = donnee[indiceDeb+4:indiceFin].split("\\")
+    reponse = ""
+    for i in range (len(enigme)):
+        reponse += unicode_alphabet.get(enigme[i])
+    #endfor
+    print(reponse)
+    client.send(reponse.encode())
 #endfor
-print(morse_alphabet)
+
+print(client.recv(1024))
+print(client.recv(1024))
+client.send(b"\\n")
+print(client.recv(1024))
+
+#-----Polybe-----
+
+client.send(alphabet.encode())
+donnee = str(client.recv(1024))
+print(donnee)
+
+indiceDeb = donnee.find("is ")
+indiceFin = donnee.find("\\n")
+
+donneeT = re.findall('..',donnee[indiceDeb+3:indiceFin])
+
+for i in range (len(alphabet) - 5):
+    polybe_alphabet[donneeT[i]] = alphabet[i]
+#endfor
+polybe_alphabet['52'] = 'v'
+polybe_alphabet['5252'] = 'w'
+polybe_alphabet['53'] = 'x'
+polybe_alphabet['54'] = 'y'
+polybe_alphabet['55'] = 'z'
+print(polybe_alphabet)
 
 client.send(b" ")
 donnee = str(client.recv(1024))
+print(donnee)
+
+for j in range (20):
+    #Reception de l'eniglme en morse
+    donnee = str(client.recv(1024))
+    print(donnee)
+    indiceDeb = donnee.find("is ")
+    indiceFin = donnee.find(" decyphered")
+
+    enigme = re.findall('..',donnee[indiceDeb+3:indiceFin])
+    print(enigme)
+    for i in range(len(enigme) - 1):
+        if enigme[i] == '52' and enigme[i + 1] == '52':
+            enigme[i] = '5252'
+            del enigme[i + 1]
+        #endif
+    #endfor
+
+    reponse = ""
+    for i in range (len(enigme)):
+        reponse += polybe_alphabet.get(enigme[i])
+    #endfor
+    print(reponse)
+    client.send(reponse.encode())
+#endfor
+
+print(client.recv(1024))
+print(client.recv(1024))
+client.send(b"\\n")
+print(client.recv(1024))
+
+#-----Casse couille-----
+
+client.send(b"ab")
+donnee = str(client.recv(1024))
+print(donnee)
+
+print(casse_alphabet)
+
+client.send(b"bd")
+donnee = str(client.recv(1024))
+print(donnee)
 
 
 client.close()
