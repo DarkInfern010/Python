@@ -1,12 +1,12 @@
 import socket
 import re
+import hashlib
 
 #Variables de solution des missions
 morse_alphabet = dict()
 destroy_alphabet = dict()
 unicode_alphabet = dict()
 polybe_alphabet = dict()
-casse_alphabet = dict()
 
 #Fonction permettant de split les chaines par caractères
 def splitP(string):
@@ -237,17 +237,34 @@ print(client.recv(1024))
 client.send(b"\\n")
 print(client.recv(1024))
 
-#-----Casse couille-----
+#-----XOR-----
 
-client.send(b"ab")
+client.send(b"a")
 donnee = str(client.recv(1024))
 print(donnee)
 
-print(casse_alphabet)
-
-client.send(b"bd")
+client.send(b"a")
 donnee = str(client.recv(1024))
 print(donnee)
 
+donnee = str(client.recv(1024))
+print(donnee)
+
+indiceDeb = donnee.find("is ")
+indiceFin = donnee.find(" decyphered")
+
+enigme = donnee[indiceDeb+3:indiceFin]
+print(enigme)
+print(list(enigme))
+
+test = '\x04\x17\x1f$-6\x16\n\x16+*$\x11'
+print(test)
+print(list(test))
+
+print(len(enigme))
+for i in range (len(enigme)):
+    enigme[i] = bin(ord(enigme[i]))
+#endfor
+print(enigme)
 
 client.close()
