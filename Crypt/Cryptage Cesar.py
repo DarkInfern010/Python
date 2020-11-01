@@ -1,7 +1,7 @@
-crypter = "EPCQFBXKWURQCTXOIPMNV"                    
+crypter = "tm bcsv qolfp f'dmvd xuhm exl tgak hlrkiv sydg hxm qiswzzwf qrf oqdueqe dpae resd wndo liva bu vgtokx sjzk hmb rqch fqwbg fmmft seront sntsdr pmsecq"
 manip = crypter.upper()                         
 
-for i in range (1,26):                          
+for i in range (1,27):
     decrypter = ""                              
     for car in manip:                        
         if (ord(car) + i > 65 and ord(car) + i < 91) :                 

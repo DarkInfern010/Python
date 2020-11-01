@@ -7,6 +7,7 @@ morse_alphabet = dict()
 destroy_alphabet = dict()
 unicode_alphabet = dict()
 polybe_alphabet = dict()
+xor_alphabet = dict()
 
 #Fonction permettant de split les chaines par caractères
 def splitP(string):
@@ -239,15 +240,22 @@ print(client.recv(1024))
 
 #-----XOR-----
 
-client.send(b"a")
+client.send(b"abcdefghijklmnopqrstuvwxyz")
 donnee = str(client.recv(1024))
 print(donnee)
 
-client.send(b"a")
+client.send(b"\x04\x01\x14!&1\x02\x0b\x1e/(;\x08\r\x1852%\x16\x17\x0234/\x1c\x19")
 donnee = str(client.recv(1024))
 print(donnee)
 
-donnee = str(client.recv(1024))
+a = list("\x04\x01\x14!&1\x02\x0b\x1e/(;\x08\r\x1852%\x16\x17\x0234/\x1c\x19")
+print(a)
+for i in range (len(a)):
+    xor_alphabet[a[i]] = alphabet[i]
+#endfor
+print(xor_alphabet)
+
+donnee = client.recv(1024).decode('utf-8')
 print(donnee)
 
 indiceDeb = donnee.find("is ")
@@ -255,16 +263,37 @@ indiceFin = donnee.find(" decyphered")
 
 enigme = donnee[indiceDeb+3:indiceFin]
 print(enigme)
-print(list(enigme))
 
-test = '\x04\x17\x1f$-6\x16\n\x16+*$\x11'
-print(test)
-print(list(test))
-
-print(len(enigme))
+reponse = ""
 for i in range (len(enigme)):
-    enigme[i] = bin(ord(enigme[i]))
+    reponse += xor_alphabet.get(enigme[i])
+#endfor
+print(reponse)
+client.send(reponse.encode())
+donnee = str(client.recv(1024))
+print(donnee)
+
+'''
+for i in range (len(enigme)):
+    enigme[i] = int(bin(ord(enigme[i])), 2)
 #endfor
 print(enigme)
 
+cle = list("ecwECW")
+cle = int(bin(ord(cle[0])), 2)
+
+for j in range (len(enigme)):
+    t1 = bin(enigme[j] ^ cle)
+    t2 = hex(int(t1,2))
+    t3 = bytes.fromhex(t2[2:]).decode("ASCII")
+    enigme[j] = t3
+#endofr
+print(enigme)
+
+reponse = ("".join(enigme))
+print(reponse)
+client.send(reponse.encode())
+donnee = str(client.recv(1024))
+print(donnee)
+'''
 client.close()
